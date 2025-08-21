@@ -13,8 +13,8 @@ export default function QRScanner() {
       setResult(text);
       setScanning(false);
 
-      // Send to backend
-      fetch("http://localhost:5000/scan", {
+      // Send to backend (no localhost anymore 🚀)
+      fetch("/api/scan", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ result: text }),
@@ -22,7 +22,7 @@ export default function QRScanner() {
         .then((res) => res.json())
         .then((data) => {
           console.log("📤 Sent to backend:", data);
-          setIp(data.ip); // store IP in state
+          setIp(data.ip);
         })
         .catch((err) => console.error("Error sending data:", err));
     },
@@ -32,21 +32,22 @@ export default function QRScanner() {
     <div style={{ textAlign: "center", marginTop: "50px" }}>
       <h1>QR Scanner</h1>
       <div>
-      <button
-        onClick={() => setScanning((prev) => !prev)}
-        style={{
-          padding: "10px 20px",
-          marginBottom: "20px",
-          cursor: "pointer",
-          borderRadius: "8px",
-          backgroundColor: scanning ? "red" : "green",
-          color: "white",
-          border: "none",
-        }}
-      >
-        {scanning ? "Stop Scanning" : "Start Scanning"}
-      </button>
+        <button
+          onClick={() => setScanning((prev) => !prev)}
+          style={{
+            padding: "10px 20px",
+            marginBottom: "20px",
+            cursor: "pointer",
+            borderRadius: "8px",
+            backgroundColor: scanning ? "red" : "green",
+            color: "white",
+            border: "none",
+          }}
+        >
+          {scanning ? "Stop Scanning" : "Start Scanning"}
+        </button>
       </div>
+
       {scanning && (
         <video
           ref={ref}
