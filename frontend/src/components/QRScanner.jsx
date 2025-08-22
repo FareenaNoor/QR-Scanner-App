@@ -6,6 +6,9 @@ export default function QRScanner() {
   const [ip, setIp] = useState("");
   const [scanning, setScanning] = useState(false);
 
+  // 👇 Put your deployed backend URL here
+  const BACKEND_URL = "https://qr-scanner-app-ashy.vercel.app/api/scan";
+
   const { ref } = useZxing({
     paused: !scanning,
     onDecodeResult(result) {
@@ -13,8 +16,8 @@ export default function QRScanner() {
       setResult(text);
       setScanning(false);
 
-      // Send to backend (no localhost anymore 🚀)
-      fetch("/api/scan", {
+      // Always send to deployed backend 🚀
+      fetch(BACKEND_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ result: text }),
